@@ -44,8 +44,6 @@ public class Main {
 			
 			// set piece for AI
 			List<Integer> bestMove = bestai.bestMove(gun, Piece.Player2);
-			bestai.bestMove(gun, Piece.Player2);
-			System.out.println("AI bestMove: " + bestMove.get(0) + "," + bestMove.get(1));
 			gun.setPiece(bestMove.get(0), bestMove.get(1), Piece.Player2);
 			System.out.println("Player 2 set his piece");
 			
@@ -53,8 +51,6 @@ public class Main {
 			if(!gun.isFull() || gun.checkForWin().equals(Piece.Empty)) {
 				System.out.println(gun);
 			}
-			
-			System.out.println("loop ended");
 		}
 		myPiece.close();
 		

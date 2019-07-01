@@ -3,6 +3,9 @@ package main;
 import java.util.List;
 
 public class MiniMaxAI implements TicTacToeAI {
+	
+	private Piece piece;
+	
 	private class MiniMaxResult {
 		public int bestValue;
 		public int i;
@@ -10,7 +13,8 @@ public class MiniMaxAI implements TicTacToeAI {
 	}
 
 	@Override
-	public List<Integer> bestMove(TicTacToe board, Piece piece) {	
+	public List<Integer> bestMove(TicTacToe board, Piece piece) {
+		this.piece = piece;
 		MiniMaxResult bestMove = miniMax(board, piece, true);
 		return List.of(bestMove.i, bestMove.j);
 	}
@@ -26,7 +30,7 @@ public class MiniMaxAI implements TicTacToeAI {
 		// terminal state
 		if (board.checkForWin() != Piece.Empty || board.isFull()) {
 			MiniMaxResult result = new MiniMaxResult();
-			result.bestValue = score(board, piece);
+			result.bestValue = score(board);
 			return result;
 		}
 
@@ -67,7 +71,7 @@ public class MiniMaxAI implements TicTacToeAI {
 					if (currentPiece == Piece.Empty) {
 						board.setPiece(i, j, piece);
 						Piece nextPiece = piece == Piece.Player1 ? Piece.Player2 : Piece.Player1;
-						MiniMaxResult minResult = miniMax(board, nextPiece, false);
+						MiniMaxResult minResult = miniMax(board, nextPiece, true);
 						if (minResult.bestValue < result.bestValue) {
 							result.bestValue = minResult.bestValue;
 							result.i = i;
@@ -87,7 +91,7 @@ public class MiniMaxAI implements TicTacToeAI {
 	 * @param piece
 	 * @return
 	 */
-	private int score(TicTacToe board, Piece piece) {
+	private int score(TicTacToe board) {
 		// check who won the game
 		Piece winner = board.checkForWin();
 		if (winner != Piece.Empty) {
